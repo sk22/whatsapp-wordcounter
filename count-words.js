@@ -11,31 +11,42 @@ function matchWords(message) {
 }
 
 function countWords(words) {
-  return words.reduce(
-    (counts, word) =>
-      word ? { ...counts, [word]: (counts[word] || 0) + 1 } : counts,
-    {}
-  )
+  let counts = {}
+  for (const word of words) {
+    if (counts[word]) {
+      counts[word]++
+    } else {
+      counts[word] = 1
+    }
+  }
+  return counts
 }
 
-function aggregateSenders(previousStrings, { message, sender }) {
-  return {
-    ...previousStrings,
-    [sender]: `${previousStrings[sender] || ''} ${message}`
+function joinMessages(messages) {
+  let strings = {}
+  for (const { message, sender } of messages) {
+    if (strings[sender]) {
+      strings[sender] += ` ${message.toLowerCase()}`
+    } else {
+      strings[sender] = message
+    }
   }
+  return strings
+}
+
+function countBySender(stringsBySender) {
+  let counts = {}
+  for (const sender of Object.keys(stringsBySender)) {
+    counts[sender] = countWords(matchWords(stringsBySender[sender]))
+  }
+  return counts
 }
 
 function processMessages(messages) {
   // [ { message: 'foo', sender: 'root', date: '...' } ]
-  const stringsBySender = messages.reduce(aggregateSenders, {})
-  const wordCounts = Object.keys(stringsBySender).reduce(
-    (obj, sender) => ({
-      ...obj,
-      [sender]: countWords(matchWords(stringsBySender[sender]))
-    }),
-    {}
-  )
-  console.log(JSON.stringify(wordCounts, null, pretty && 2))
+  const stringsBySender = joinMessages(messages)
+  const counts = countBySender(stringsBySender)
+  console.log(JSON.stringify(counts, null, pretty && 2))
 }
 
 getStdin()

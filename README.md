@@ -25,10 +25,7 @@
 Example: Using the last 100 lines instead of the whole chat
 
 ```
-tail -100 chat.txt \
-  | ./messages.js \
-  | ./words.js \
-  | ./counts-to-csv.js [directory]
+tail -100 chat.txt | ./chat-to-json.js | ./count-words.js | ./counts-to-csv.js [directory]
 ```
 
 
