@@ -4,7 +4,7 @@ const getStdin = require('get-stdin')
 
 const pretty = process.argv.includes('--pretty')
 
-const word = /[a-z0-9äöü]+/ig
+const word = /[a-z0-9äöüßẞ]+/ig
 
 function matchWords(message) {
   return message.match(word)
