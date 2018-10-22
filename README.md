@@ -11,7 +11,7 @@
 ### Save counts into file
 
 ```
-./words.js --pretty > counts.json
+./count-words.js --pretty > counts.json
 ```
 
 ### Create readable CSV files
