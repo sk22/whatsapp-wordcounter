@@ -5,7 +5,7 @@
 ### Export chat into file
 
 ```
-./messages.js --pretty < chat.txt > messages.json
+./chat-to-json.js --pretty < chat.txt > messages.json
 ```
 
 ### Save counts into file
